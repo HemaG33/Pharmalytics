@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Medication List</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+</head>
+<body class="container">
+    <h1>Medication List</h1>
+    <ul>
+        {% for medication in medications %}
+            <li>
+                <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #ccc;">
+                    <span style="flex: 1;">
+                        <a href="{% url 'PharmalyticsApp:medication_detail' medication.pk %}" class="view-link">{{ medication.name }}</a>
+                    </span>
+                    <span style="white-space: nowrap;">
+                        <a href="{% url 'PharmalyticsApp:update_medication' medication.pk %}" style="background-color: #007bff; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; font-weight: bold; margin-right: 10px;">Edit</a>
+                        <a href="{% url 'PharmalyticsApp:delete_medication' medication.pk %}" style="background-color: #007bff; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; font-weight: bold;">Delete</a>
+                    </span>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'PharmalyticsApp:home' %}" class="submit-button">Home</a>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Medication Form</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+</head>
+<body>
+<form method="post">
+    {% csrf_token %}
+    <h1>Medication Form</h1>
+    
+    <label for="name">Name:</label>
+    {{ form.name }}
+    
+    <label for="provider">Provider:</label>
+    {{ form.provider }}
+    
+    <label for="quantity">Quantity:</label>
+    {{ form.quantity }}
+    
+    <label for="expirydate">Expiry Date:</label>
+    {{ form.expirydate }}
+    
+    <label for="category">Category:</label>
+    {{ form.category }}
+    
+    <label for="description">Description:</label>
+    {{ form.description }}
+    
+    <label for="chemicalcomposition">Chemical Composition:</label>
+    {{ form.chemicalcomposition }}
+    
+    <input type="submit" value="Submit">
+</form>
+</body>
+</html>
