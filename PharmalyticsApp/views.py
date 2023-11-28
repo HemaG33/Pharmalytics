@@ -1,5 +1,5 @@
-from .forms import CreateMedicationForm
-from .models import Medication
+from .forms import CreateMedicationForm, CreateCustomerForm
+from .models import Medication, Customers
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 def home(request):
     return render(request, 'PharmalyticsApp/home.html')
 
+########################### Medication Table ####################################################
 def create_medication(request):
     if request.method == 'POST':
         form = CreateMedicationForm(request.POST)
@@ -87,3 +88,76 @@ def success(request):
     return render(request, 'PharmalyticsApp/success.html')
 
 
+########################### Customers Table ####################################################
+def create_customer(request):
+    if request.method == 'POST':
+        form = CreateCustomerForm(request.POST)
+        if form.is_valid():
+            formdata = form.cleaned_data
+            name = formdata['name']
+            date_of_birth = formdata['dateofbirth']
+            gender = formdata['gender']
+            phone_number = formdata['phonenumber']
+            insurance_company = formdata['insurancecompany']
+            permanent_medication = formdata['permanentmedication']
+
+            Customers.objects.create(
+                name=name,
+                dateofbirth=date_of_birth,
+                gender=gender,
+                phonenumber=phone_number,
+                insurancecompany=insurance_company,
+                permanentmedication=permanent_medication
+            )
+
+            return HttpResponseRedirect('/PharmalyticsApp/success')
+    else:
+        form = CreateCustomerForm()
+
+    return render(request, 'PharmalyticsApp/create_customer.html', {'form': form})
+
+def customer_list(request):
+    customers = Customers.objects.all()
+    return render(request, 'PharmalyticsApp/customer_list.html', {'customers': customers})
+
+def customer_detail(request, pk):
+    customer = get_object_or_404(Customers, pk=pk)
+    return render(request, 'PharmalyticsApp/customer_detail.html', {'customer': customer})
+
+def update_customer(request, pk):
+    customer = get_object_or_404(Customers, pk=pk)
+
+    if request.method == 'POST':
+        form = CreateCustomerForm(request.POST)
+        if form.is_valid():
+            customer.name = form.cleaned_data['name']
+            customer.dateofbirth = form.cleaned_data['dateofbirth']
+            customer.gender = form.cleaned_data['gender']
+            customer.phonenumber = form.cleaned_data['phonenumber']
+            customer.insurancecompany = form.cleaned_data['insurancecompany']
+            customer.permanentmedication = form.cleaned_data['permanentmedication']
+            customer.save()
+
+            return redirect('PharmalyticsApp:success')
+    else:
+        form = CreateCustomerForm(initial={
+            'name': customer.name,
+            'dateofbirth': customer.dateofbirth,
+            'gender': customer.gender,
+            'phonenumber': customer.phonenumber,
+            'insurancecompany': customer.insurancecompany,
+            'permanentmedication': customer.permanentmedication,
+        })
+
+    return render(request, 'PharmalyticsApp/update_customer.html', {'form': form})
+
+# Delete operation
+def delete_customer(request, pk):
+    customer = get_object_or_404(Customers, pk=pk)
+    if request.method == 'POST':
+        customer.delete()
+        return redirect('PharmalyticsApp:home')
+    return render(request, 'PharmalyticsApp/delete_customer.html', {'customer': customer})
+
+def success(request):
+    return render(request, 'PharmalyticsApp/success.html')
