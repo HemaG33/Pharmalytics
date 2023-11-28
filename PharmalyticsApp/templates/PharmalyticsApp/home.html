@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Pharmalytics Medication Database</title>
+    <title>Pharmalytics Database</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 </head>
 <body class="container">
-    <h1>Medication Database</h1>
+    <h2>Medication Database</h2>
     <a href="{% url 'PharmalyticsApp:create_medication' %}" class="home-button">Add New Medication</a>
     <a href="{% url 'PharmalyticsApp:medication_list' %}" class="home-button">View Current Medications</a>
+    <h2>Customers Database</h2>
+    <a href="{% url 'PharmalyticsApp:create_customer' %}" class="home-button">Add New Customer</a>
+    <a href="{% url 'PharmalyticsApp:customer_list' %}" class="home-button">View Current Customers</a>
 </body>
 </html>

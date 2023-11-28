@@ -8,12 +8,16 @@
 <body class="container">
     <h1>Medication Details</h1>
     <p>Name: {{ medication.name }}</p>
+    <p>Dosage: {{ medication.dosage }}</p>
     <p>Provider: {{ medication.provider }}</p>
     <p>Quantity: {{ medication.quantity }}</p>
     <p>Expiry Date: {{ medication.expirydate }}</p>
+    <p>Price: {{ medication.price }}</p>
     <p>Category: {{ medication.category }}</p>
     <p>Description: {{ medication.description }}</p>
+    <p>Side Effects: {{ medication.sideeffects }}</p>
     <p>Chemical Composition: {{ medication.chemicalcomposition }}</p>
+    <p>Substitute: {{ medication.substitute }}</p>
     <a href="{% url 'PharmalyticsApp:update_medication' medication.pk %}" class="submit-button">Edit</a>
     <a href="{% url 'PharmalyticsApp:delete_medication' medication.pk %}" class="submit-button">Delete</a>
     <a href="{% url 'PharmalyticsApp:medication_list' %}" class="submit-button">Back</a>
