@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customer List</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+</head>
+<body class="container">
+    <h1>Customer List</h1>
+    <ul>
+        {% for customer in customers %}
+            <li>
+                <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #ccc;">
+                    <span style="flex: 1;">
+                        <a href="{% url 'PharmalyticsApp:customer_detail' customer.pk %}" class="view-link">{{ customer.name }}</a>
+                    </span>
+                    <span style="white-space: nowrap;">
+                        <a href="{% url 'PharmalyticsApp:update_customer' customer.pk %}" style="background-color: #007bff; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; font-weight: bold; margin-right: 10px;">Edit</a>
+                        <a href="{% url 'PharmalyticsApp:delete_customer' customer.pk %}" style="background-color: #007bff; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; font-weight: bold;">Delete</a>
+                    </span>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'PharmalyticsApp:home' %}" class="submit-button">Home</a>
+</body>
+</html>

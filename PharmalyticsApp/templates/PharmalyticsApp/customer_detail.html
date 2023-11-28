@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customer Details</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+</head>
+<body class="container">
+    <h1>Customer Details</h1>
+    <p>Name: {{ customer.name }}</p>
+    <p>Date of Birth: {{ customer.dateofbirth }}</p>
+    <p>Gender: {{ customer.gender }}</p>
+    <p>Phone Number: {{ customer.phonenumber }}</p>
+    <p>Insurance Company: {{ customer.insurancecompany }}</p>
+    <p>Permanent Medication: {{ customer.permanentmedication }}</p>
+    <a href="{% url 'PharmalyticsApp:update_customer' customer.pk %}" class="submit-button">Edit</a>
+    <a href="{% url 'PharmalyticsApp:delete_customer' customer.pk %}" class="submit-button">Delete</a>
+    <a href="{% url 'PharmalyticsApp:customer_list' %}" class="submit-button">Back</a>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Form</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+</head>
+<body>
+<form method="post">
+    {% csrf_token %}
+    <h1>Customer Form</h1>
+    
+    <label for="name">Name:</label>
+    {{ form.name }}
+    
+    <label for="dateofbirth">Date of Birth:</label>
+    {{ form.dateofbirth }}
+    
+    <label for="gender">Gender:</label>
+    {{ form.gender }}
+    
+    <label for="phonenumber">Phone Number:</label>
+    {{ form.phonenumber }}
+    
+    <label for="insurancecompany">Insurance Company:</label>
+    {{ form.insurancecompany }}
+    
+    <label for="permanentmedication">Permanent Medication:</label>
+    {{ form.permanentmedication }}
+    
+    <input type="submit" value="Submit">
+</form>
+</body>
+</html>
