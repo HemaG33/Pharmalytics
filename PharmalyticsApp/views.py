@@ -1,4 +1,4 @@
-from .forms import CreateMedicationForm, CreateCustomerForm
+from .forms import CreateMedicationForm, CreateCustomerForm, MedicationFilterForm, CustomerFilterForm
 from .models import Medication, Customers
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
@@ -40,7 +40,18 @@ def create_medication(request):
 
 def medication_list(request):
     medications = Medication.objects.all()
-    return render(request, 'PharmalyticsApp/medication_list.html', {'medications': medications})
+    # Handling search and filter
+    form = MedicationFilterForm(request.GET)
+    if form.is_valid():
+        search_term = form.cleaned_data.get('search')
+        #category_filter = form.cleaned_data.get('category')
+
+        if search_term:
+            medications = medications.filter(name__icontains=search_term)
+
+        #if category_filter:
+            #medications = medications.filter(category__icontains=category_filter)
+    return render(request, 'PharmalyticsApp/medication_list.html', {'medications': medications, 'form': form})
 
 def medication_detail(request, pk):
     medication = get_object_or_404(Medication, pk=pk)
@@ -118,7 +129,18 @@ def create_customer(request):
 
 def customer_list(request):
     customers = Customers.objects.all()
-    return render(request, 'PharmalyticsApp/customer_list.html', {'customers': customers})
+    # Handling search and filter
+    form = CustomerFilterForm(request.GET)
+    if form.is_valid():
+        search_term = form.cleaned_data.get('search')
+        #type_filter = form.cleaned_data.get('type')
+
+        if search_term:
+            customers = customers.filter(name__icontains=search_term)
+
+        #if type_filter:
+            #customers = customers.filter(type=type_filter)
+    return render(request, 'PharmalyticsApp/customer_list.html', {'customers': customers, 'form': form})
 
 def customer_detail(request, pk):
     customer = get_object_or_404(Customers, pk=pk)

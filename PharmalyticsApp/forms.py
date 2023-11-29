@@ -22,6 +22,10 @@ class CreateMedicationForm(forms.ModelForm):
     chemicalcomposition = forms.CharField(label='Chemical Composition')
     substitute = forms.CharField(label='Substitute')
     
+class MedicationFilterForm(forms.Form):
+    search = forms.CharField(required=False)
+    #category = forms.CharField(required=False)
+
 class CreateCustomerForm(forms.ModelForm):
     class Meta:
         model = Customers
@@ -38,4 +42,6 @@ class CreateCustomerForm(forms.ModelForm):
     insurancecompany = forms.CharField(label='Insurance Company')
     permanentmedication = forms.CharField(label='Permanent Medication')
 
-    
+class CustomerFilterForm(forms.Form):
+    search = forms.CharField(required=False)
+    #type = forms.CharField(required=False)
