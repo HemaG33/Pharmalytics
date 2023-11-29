@@ -1,9 +1,10 @@
-from .forms import CreateMedicationForm, CreateCustomerForm, MedicationFilterForm, CustomerFilterForm
+from .forms import CreateMedicationForm, CreateCustomerForm, MedicationFilterForm, CustomerFilterForm, MedicationOrderForm
 from .models import Medication, Customers
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
+from django.core.mail import send_mail
+from django.conf import settings
 
-# Create your views here.
 
 def home(request):
     return render(request, 'PharmalyticsApp/home.html')
@@ -183,3 +184,30 @@ def delete_customer(request, pk):
 
 def success(request):
     return render(request, 'PharmalyticsApp/success.html')
+
+########################### Submit Order ####################################################
+def submit_order(request):
+    if request.method == 'POST':
+        form = MedicationOrderForm(request.POST)
+        if form.is_valid():
+            order = form.save()
+            send_order_email(order)
+            return HttpResponseRedirect('/PharmalyticsApp/success')  
+    else:
+        form = MedicationOrderForm()
+    return render(request, 'PharmalyticsApp/submit_order.html', {'form': form})
+
+def send_order_email(order):
+    subject = 'New Medication Order'
+    message = f'''
+    Dear {order.provider},
+    We request a new order for:
+    Medication: {order.medname}
+    Dosage: {order.dosage}
+    Quantity: {order.quantity}
+    Notes: {order.notes}
+    Thank you in advance.
+    Best Regards.'''
+    from_email = settings.DEFAULT_FROM_EMAIL
+    recipient_list = [order.provideremail]
+    send_mail(subject, message, from_email, recipient_list)

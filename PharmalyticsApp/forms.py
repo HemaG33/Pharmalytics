@@ -1,5 +1,5 @@
 from django import forms
-from .models import Medication, Customers
+from .models import Medication, Customers, MedicationOrder
 
 class CreateMedicationForm(forms.ModelForm):
     class Meta:
@@ -45,3 +45,10 @@ class CreateCustomerForm(forms.ModelForm):
 class CustomerFilterForm(forms.Form):
     search = forms.CharField(required=False)
     #type = forms.CharField(required=False)
+
+# Order Form
+class MedicationOrderForm(forms.ModelForm):
+    class Meta:
+        model = MedicationOrder
+        fields = ['provider', 'provideremail', 'medname', 'dosage', 'quantity', 'notes']
+    

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import create_medication, medication_list, medication_detail, update_medication, delete_medication, home, success, create_customer, delete_customer, customer_detail, customer_list, update_customer
+from .views import create_medication, medication_list, medication_detail, update_medication, delete_medication, home, success, create_customer, delete_customer, customer_detail, customer_list, update_customer, submit_order
 
 app_name = 'PharmalyticsApp'
 
@@ -15,5 +15,6 @@ urlpatterns = [
     path('customer/<int:pk>/update/', update_customer, name='update_customer'),
     path('customer/<int:pk>/delete/', delete_customer, name='delete_customer'),
     path('createcustomer/', create_customer, name='create_customer'),
+    path('submitorder/', submit_order, name='submit_order'),
     path('', home, name='home')
 ]

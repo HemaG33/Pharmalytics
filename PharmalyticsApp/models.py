@@ -1,6 +1,6 @@
 from django.db import models
 
-
+# Medication Model
 class Medication(models.Model):
     class category_choices(models.TextChoices):
         BLOOD = 'Blood Pressure',
@@ -25,6 +25,7 @@ class Medication(models.Model):
     chemicalcomposition = models.CharField(max_length=200)
     substitute = models.CharField(max_length=100, null=True)
  
+# Customers Model
 class Customers(models.Model):
     class gender_choices(models.TextChoices): 
         FEMALE = 'Female',
@@ -39,3 +40,12 @@ class Customers(models.Model):
     insurancecompany = models.CharField(max_length=50, null=True)
     permanentmedication = models.CharField(max_length=200, null=True)
     
+# Order Model
+class MedicationOrder(models.Model):
+    id = models.AutoField(primary_key=True)
+    provider = models.CharField(max_length=100)
+    provideremail = models.EmailField()
+    medname = models.CharField(max_length=100)
+    dosage = models.CharField(max_length=20)
+    quantity = models.IntegerField()
+    notes = models.TextField(blank=True)

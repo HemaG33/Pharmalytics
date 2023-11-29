@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Form</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+</head>
+<body>
+<form method="post">
+    {% csrf_token %}
+    <h1>Order Form</h1>
+    
+    <label for="provider">Provider:</label>
+    {{ form.provider }}
+
+    <label for="provideremail">Provider Email:</label>
+    {{ form.provideremail }}
+    
+    <label for="medname">Medication Name:</label>
+    {{ form.medname }}
+    
+    <label for="dosage">Dosage:</label>
+    {{ form.dosage }}
+    
+    <label for="quantity">Quantity:</label>
+    {{ form.quantity }}
+
+    <label for="notes">Notes:</label>
+    {{ form.notes }}
+    
+    <input type="submit" value="Submit">
+</form>
+</body>
+</html>
