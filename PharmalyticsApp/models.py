@@ -22,7 +22,7 @@ class Medication(models.Model):
     category = models.CharField(max_length=50, choices=category_choices.choices, default=category_choices.BLOOD)
     description = models.CharField(max_length=200)
     sideeffects = models.CharField(max_length=200, null=True)
-    chemicalcomposition = models.CharField(max_length=200)
+    chemicalcomposition = models.CharField(max_length=200, null=True)
     substitute = models.CharField(max_length=100, null=True)
  
 # Customers Model

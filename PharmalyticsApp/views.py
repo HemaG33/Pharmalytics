@@ -1,5 +1,6 @@
 from .forms import CreateMedicationForm, CreateCustomerForm, MedicationFilterForm, CustomerFilterForm, MedicationOrderForm
 from .models import Medication, Customers
+from .util import get_substitutions
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.core.mail import send_mail
@@ -56,7 +57,8 @@ def medication_list(request):
 
 def medication_detail(request, pk):
     medication = get_object_or_404(Medication, pk=pk)
-    return render(request, 'PharmalyticsApp/medication_detail.html', {'medication': medication})
+    substitutions = get_substitutions(medication)
+    return render(request, 'PharmalyticsApp/medication_detail.html', {'medication': medication, 'substitutions': substitutions})
 
 def update_medication(request, pk):
     medication = get_object_or_404(Medication, pk=pk)

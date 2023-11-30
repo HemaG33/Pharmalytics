@@ -17,7 +17,11 @@
     <p>Description: {{ medication.description }}</p>
     <p>Side Effects: {{ medication.sideeffects }}</p>
     <p>Chemical Composition: {{ medication.chemicalcomposition }}</p>
-    <p>Substitute: {{ medication.substitute }}</p>
+    <p>Substitute/s: 
+        {% for substitution in substitutions %}
+            <p>{{ forloop.counter }}. {{ substitution.name }} - Chemical Composition: {{ substitution.chemicalcomposition }}</p>
+        {% endfor %}
+    </p>
     <a href="{% url 'PharmalyticsApp:update_medication' medication.pk %}" class="submit-button">Edit</a>
     <a href="{% url 'PharmalyticsApp:delete_medication' medication.pk %}" class="submit-button">Delete</a>
     <a href="{% url 'PharmalyticsApp:medication_list' %}" class="submit-button">Back</a>

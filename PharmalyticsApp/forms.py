@@ -4,7 +4,7 @@ from .models import Medication, Customers, MedicationOrder
 class CreateMedicationForm(forms.ModelForm):
     class Meta:
         model = Medication
-        fields = ['name', 'dosage','provider', 'quantity', 'expirydate', 'price','category', 'description', 'sideeffects','chemicalcomposition', 'substitute']
+        fields = ['name', 'dosage','provider', 'quantity', 'expirydate', 'price','category', 'description', 'sideeffects','chemicalcomposition']
         widgets = {
             'expirydate': forms.DateInput(attrs={'type': 'date'}),
         }
@@ -20,7 +20,6 @@ class CreateMedicationForm(forms.ModelForm):
     description = forms.CharField(label='Description')
     sideeffects = forms.CharField(label='Side Effects')
     chemicalcomposition = forms.CharField(label='Chemical Composition')
-    substitute = forms.CharField(label='Substitute')
     
 class MedicationFilterForm(forms.Form):
     search = forms.CharField(required=False)
