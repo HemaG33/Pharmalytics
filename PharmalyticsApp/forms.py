@@ -4,7 +4,7 @@ from .models import Medication, Customers, MedicationOrder
 class CreateMedicationForm(forms.ModelForm):
     class Meta:
         model = Medication
-        fields = ['name', 'dosage','provider', 'quantity', 'expirydate', 'price','category', 'description', 'sideeffects','chemicalcomposition']
+        fields = ['name', 'dosage','provider', 'quantity', 'expirydate', 'price','category', 'description', 'barcode', 'sideeffects','chemicalcomposition']
         widgets = {
             'expirydate': forms.DateInput(attrs={'type': 'date'}),
         }
@@ -18,6 +18,7 @@ class CreateMedicationForm(forms.ModelForm):
     category_choices = Medication.category_choices.choices
     category = forms.ChoiceField(label='Category', choices=category_choices)
     description = forms.CharField(label='Description')
+    barcode = forms.CharField(label='Barcode Label')
     sideeffects = forms.CharField(label='Side Effects')
     chemicalcomposition = forms.CharField(label='Chemical Composition')
     

@@ -21,6 +21,7 @@ class Medication(models.Model):
     price = models.IntegerField(default=0)
     category = models.CharField(max_length=50, choices=category_choices.choices, default=category_choices.BLOOD)
     description = models.CharField(max_length=200)
+    barcode = models.CharField(max_length=13, unique=True, null=True)
     sideeffects = models.CharField(max_length=200, null=True)
     chemicalcomposition = models.CharField(max_length=200, null=True)
     substitute = models.CharField(max_length=100, null=True)

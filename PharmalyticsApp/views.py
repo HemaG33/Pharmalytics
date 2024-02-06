@@ -17,20 +17,26 @@ def create_medication(request):
         if form.is_valid():
             formdata = form.cleaned_data
             name = formdata['name']
+            dosage = formdata['dosage']
             provider = formdata['provider']
             quantity = formdata['quantity']
             expiry_date = formdata['expirydate']
             category = formdata['category']
             description = formdata['description']
+            barcode = formdata['barcode']
+            side_effects = formdata['sideeffects']
             chemical_composition = formdata['chemicalcomposition']
 
             Medication.objects.create(
                 name=name,
+                dosage=dosage,
                 provider=provider,
                 quantity=quantity,
                 expirydate=expiry_date,
                 category=category,
                 description=description,
+                barcode=barcode,
+                sideeffects=side_effects,
                 chemicalcomposition=chemical_composition
             )
 
@@ -67,11 +73,14 @@ def update_medication(request, pk):
         form = CreateMedicationForm(request.POST)
         if form.is_valid():
             medication.name = form.cleaned_data['name']
+            medication.dosage = form.cleaned_data['dosage']
             medication.provider = form.cleaned_data['provider']
             medication.quantity = form.cleaned_data['quantity']
             medication.expirydate = form.cleaned_data['expirydate']
             medication.category = form.cleaned_data['category']
             medication.description = form.cleaned_data['description']
+            medication.barcode = form.cleaned_data['barcode']
+            medication.sideeffects = form.cleaned_data['sideeffects']
             medication.chemicalcomposition = form.cleaned_data['chemicalcomposition']
 
             medication.save()
@@ -80,11 +89,14 @@ def update_medication(request, pk):
     else:
         form = CreateMedicationForm(initial={
             'name': medication.name,
+            'dosage': medication.dosage,
             'provider': medication.provider,
             'quantity': medication.quantity,
             'expirydate': medication.expirydate,
             'category': medication.category,
             'description': medication.description,
+            'barcode': medication.barcode,
+            'sideeffects': medication.sideeffects,
             'chemicalcomposition': medication.chemicalcomposition,
         })
 
@@ -213,3 +225,11 @@ def send_order_email(order):
     from_email = settings.DEFAULT_FROM_EMAIL
     recipient_list = [order.provideremail]
     send_mail(subject, message, from_email, recipient_list)
+
+########################### Scan Barcode ####################################################
+def scan_barcode(request):
+    if request.method == 'POST':
+        scanned_barcode = request.POST.get('barcode', '')
+        medication = get_object_or_404(Medication, barcode=scanned_barcode)
+        return render(request, 'PharmalyticsApp/medication_detail.html', {'medication': medication})
+    return render(request, 'PharmalyticsApp/scan_barcode.html')

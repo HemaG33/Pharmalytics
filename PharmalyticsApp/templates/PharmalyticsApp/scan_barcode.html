@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Scan Barcode</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        <h1>Scan Barcode</h1>
+
+        <label for="barcode">Barcode:</label>
+        <input type="text" name="barcode" required>
+        <input type="submit"></input>
+    </form>
+</body>
+</html>
