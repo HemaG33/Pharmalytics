@@ -1,10 +1,11 @@
-from .forms import CreateMedicationForm, CreateCustomerForm, MedicationSearchForm, CustomerSearchForm, MedicationOrderForm
-from .models import Medication, Customers
+from .forms import CreateMedicationForm, CreateCustomerForm, MedicationSearchForm, CustomerSearchForm, MedicationOrderForm, OrderSearchForm
+from .models import Medication, Customers, MedicationOrder
 from .util import get_substitutions
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.core.mail import send_mail
 from django.conf import settings
+from django.db.models import Q
 
 
 def home(request):
@@ -233,6 +234,27 @@ def send_order_email(order):
     from_email = settings.DEFAULT_FROM_EMAIL
     recipient_list = [order.provideremail]
     send_mail(subject, message, from_email, recipient_list)
+
+def order_list(request):
+    orders = MedicationOrder.objects.all()
+    # Handling search 
+    form = OrderSearchForm(request.GET)
+    if form.is_valid():
+        search_term = form.cleaned_data.get('search')
+        if search_term:
+            orders = orders.filter(Q(provider__icontains=search_term) | Q(medname__icontains=search_term))
+    return render(request, 'PharmalyticsApp/order_list.html', {'orders': orders, 'form': form})
+
+def order_detail(request, pk):
+    order = get_object_or_404(MedicationOrder, pk=pk)
+    return render(request, 'PharmalyticsApp/order_detail.html', {'order': order})
+
+def delete_order(request, pk):
+    order = get_object_or_404(MedicationOrder, pk=pk)
+    if request.method == 'POST':
+        order.delete()
+        return redirect('PharmalyticsApp:home')
+    return render(request, 'PharmalyticsApp/delete_order.html', {'order': order})
 
 ########################### Scan Barcode ####################################################
 def scan_barcode(request):

@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 # Medication Model
 class Medication(models.Model):
@@ -50,3 +51,4 @@ class MedicationOrder(models.Model):
     dosage = models.CharField(max_length=20)
     quantity = models.IntegerField()
     notes = models.TextField(blank=True)
+    orderdate = models.DateTimeField(default=datetime.now)

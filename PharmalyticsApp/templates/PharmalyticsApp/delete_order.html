@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Order Record</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+</head>
+<body class="container">
+    <h1>Delete Order Record</h1>
+    <p>Are you sure you want to delete "{{ order.id }} - {{ order.provider }}, {{ order.medname }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <input type="submit" value="Yes, delete it">
+    </form>
+    <a href="{% url 'PharmalyticsApp:order_list' %}" class="submit-button">Cancel</a>
+</body>
+</html>

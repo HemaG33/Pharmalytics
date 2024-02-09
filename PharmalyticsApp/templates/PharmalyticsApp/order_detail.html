@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Details</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+</head>
+<body class="container">
+    <h1>Order Details</h1>
+    <p>Provider: {{ order.provider }}</p>
+    <p>Provider Email: {{ order.provideremail }}</p>
+    <p>Medication Name: {{ order.medname }}</p>
+    <p>Dosage: {{ order.dosage }}</p>
+    <p>Quantity: {{ order.quantity }}</p>
+    <p>Notes: {{ order.notes }}</p>
+    <p>Date of Order: {{ order.orderdate }}</p>
+    <a href="{% url 'PharmalyticsApp:delete_order' order.pk %}" class="submit-button">Delete</a>
+    <a href="{% url 'PharmalyticsApp:order_list' %}" class="submit-button">Back</a>
+</body>
+</html>

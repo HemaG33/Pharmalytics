@@ -48,4 +48,6 @@ class MedicationOrderForm(forms.ModelForm):
     class Meta:
         model = MedicationOrder
         fields = ['provider', 'provideremail', 'medname', 'dosage', 'quantity', 'notes']
-    
+
+class OrderSearchForm(forms.Form):
+    search = forms.CharField(required=False)
