@@ -20,6 +20,13 @@
                 <option value="{{ composition }}">{{ composition }}</option>
             {% endfor %}
         </select>
+        <label for="category">Category:</label>
+        <select name="category" id="category">
+            <option value="" selected>--- All ---</option>
+            {% for category in categories %}
+                <option value="{{ category }}">{{ category }}</option>
+            {% endfor %}
+        </select>
         <button type="submit">Filter</button>
     </form>
 

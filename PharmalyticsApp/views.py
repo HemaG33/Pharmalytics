@@ -53,14 +53,18 @@ def medication_list(request):
         if search_term:
             medications = medications.filter(name__icontains=search_term)
 
-    # Fetching distinct chemical compositions for filter dropdown
+    # Fetching distinct chemical compositions and category for filter dropdown
     chemical_compositions = Medication.objects.values_list('chemicalcomposition', flat=True).distinct()
+    categories = Medication.objects.values_list('category', flat=True).distinct()
     # Handling Filter
     chemical_composition_filter = request.GET.get('chemicalcomposition')
+    category_filter = request.GET.get('category')
     if chemical_composition_filter:
         medications = medications.filter(chemicalcomposition=chemical_composition_filter)
+    if category_filter:
+        medications = medications.filter(category=category_filter)
 
-    return render(request, 'PharmalyticsApp/medication_list.html', {'medications': medications, 'form': form, 'chemical_compositions': chemical_compositions})
+    return render(request, 'PharmalyticsApp/medication_list.html', {'medications': medications, 'form': form, 'chemical_compositions': chemical_compositions, 'categories': categories})
 
 def medication_detail(request, pk):
     medication = get_object_or_404(Medication, pk=pk)
