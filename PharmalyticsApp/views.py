@@ -1,4 +1,4 @@
-from .forms import CreateMedicationForm, CreateCustomerForm, MedicationFilterForm, CustomerFilterForm, MedicationOrderForm
+from .forms import CreateMedicationForm, CreateCustomerForm, MedicationSearchForm, CustomerSearchForm, MedicationOrderForm
 from .models import Medication, Customers
 from .util import get_substitutions
 from django.http import HttpResponseRedirect
@@ -23,7 +23,6 @@ def create_medication(request):
             expiry_date = formdata['expirydate']
             category = formdata['category']
             description = formdata['description']
-            barcode = formdata['barcode']
             side_effects = formdata['sideeffects']
             chemical_composition = formdata['chemicalcomposition']
 
@@ -35,7 +34,6 @@ def create_medication(request):
                 expirydate=expiry_date,
                 category=category,
                 description=description,
-                barcode=barcode,
                 sideeffects=side_effects,
                 chemicalcomposition=chemical_composition
             )
@@ -48,18 +46,21 @@ def create_medication(request):
 
 def medication_list(request):
     medications = Medication.objects.all()
-    # Handling search and filter
-    form = MedicationFilterForm(request.GET)
+    # Handling search 
+    form = MedicationSearchForm(request.GET)
     if form.is_valid():
         search_term = form.cleaned_data.get('search')
-        #category_filter = form.cleaned_data.get('category')
-
         if search_term:
             medications = medications.filter(name__icontains=search_term)
 
-        #if category_filter:
-            #medications = medications.filter(category__icontains=category_filter)
-    return render(request, 'PharmalyticsApp/medication_list.html', {'medications': medications, 'form': form})
+    # Fetching distinct chemical compositions for filter dropdown
+    chemical_compositions = Medication.objects.values_list('chemicalcomposition', flat=True).distinct()
+    # Handling Filter
+    chemical_composition_filter = request.GET.get('chemicalcomposition')
+    if chemical_composition_filter:
+        medications = medications.filter(chemicalcomposition=chemical_composition_filter)
+
+    return render(request, 'PharmalyticsApp/medication_list.html', {'medications': medications, 'form': form, 'chemical_compositions': chemical_compositions})
 
 def medication_detail(request, pk):
     medication = get_object_or_404(Medication, pk=pk)
@@ -144,18 +145,21 @@ def create_customer(request):
 
 def customer_list(request):
     customers = Customers.objects.all()
-    # Handling search and filter
-    form = CustomerFilterForm(request.GET)
+    # Handling search 
+    form = CustomerSearchForm(request.GET)
     if form.is_valid():
         search_term = form.cleaned_data.get('search')
-        #type_filter = form.cleaned_data.get('type')
-
         if search_term:
             customers = customers.filter(name__icontains=search_term)
 
-        #if type_filter:
-            #customers = customers.filter(type=type_filter)
-    return render(request, 'PharmalyticsApp/customer_list.html', {'customers': customers, 'form': form})
+    # Fetching distinct permanent medication for filter dropdown
+    permanent_medications = Customers.objects.values_list('permanentmedication', flat=True).distinct()
+    # Handling Filter
+    permanent_medication_filter = request.GET.get('permanentmedication')
+    if permanent_medication_filter:
+        customers = customers.filter(permanentmedication=permanent_medication_filter)
+
+    return render(request, 'PharmalyticsApp/customer_list.html', {'customers': customers, 'form': form, 'permanent_medications': permanent_medications})
 
 def customer_detail(request, pk):
     customer = get_object_or_404(Customers, pk=pk)
