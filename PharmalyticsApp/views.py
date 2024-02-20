@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.core.mail import send_mail
 from django.conf import settings
 from django.db.models import Q
+from django.urls import reverse
 
 
 def home(request):
@@ -248,6 +249,40 @@ def order_list(request):
 def order_detail(request, pk):
     order = get_object_or_404(MedicationOrder, pk=pk)
     return render(request, 'PharmalyticsApp/order_detail.html', {'order': order})
+
+def reorder_order(request, pk):
+    order = get_object_or_404(MedicationOrder, pk=pk)
+
+    if request.method == 'POST':
+        form = MedicationOrderForm(request.POST)
+        if form.is_valid():
+            order.medname = form.cleaned_data['medname']
+            order.dosage = form.cleaned_data['dosage']
+            order.quantity = form.cleaned_data['quantity']
+            order.notes = form.cleaned_data['notes']
+            order.provider = form.cleaned_data['provider']
+            order.provideremail = form.cleaned_data['provideremail']
+            MedicationOrder.objects.create(
+                medname=order.medname,
+                dosage=order.dosage,
+                quantity=order.quantity,
+                notes=order.notes,
+                provider=order.provider,
+                provideremail=order.provideremail
+            )
+            send_order_email(order)
+            return redirect('PharmalyticsApp:success') 
+    else:
+        form = MedicationOrderForm(initial={
+            'medname': order.medname,
+            'dosage': order.dosage,
+            'quantity': order.quantity,
+            'notes': order.notes,
+            'provider': order.provider,
+            'provideremail': order.provideremail,
+        }) 
+
+    return render(request, 'PharmalyticsApp/reorder_order.html', {'form': form})
 
 def delete_order(request, pk):
     order = get_object_or_404(MedicationOrder, pk=pk)

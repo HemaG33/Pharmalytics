@@ -14,6 +14,7 @@
     <p>Quantity: {{ order.quantity }}</p>
     <p>Notes: {{ order.notes }}</p>
     <p>Date of Order: {{ order.orderdate }}</p>
+    <a href="{% url 'PharmalyticsApp:reorder_order' order.pk %}" class="submit-button">Reorder</a>
     <a href="{% url 'PharmalyticsApp:delete_order' order.pk %}" class="submit-button">Delete</a>
     <a href="{% url 'PharmalyticsApp:order_list' %}" class="submit-button">Back</a>
 </body>
