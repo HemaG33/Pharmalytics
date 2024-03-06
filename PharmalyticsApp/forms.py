@@ -1,5 +1,5 @@
 from django import forms
-from .models import Medication, Customers, MedicationOrder
+from .models import Medication, Customers, MedicationOrder, SalesTransaction
 
 class CreateMedicationForm(forms.ModelForm):
     class Meta:
@@ -50,4 +50,25 @@ class MedicationOrderForm(forms.ModelForm):
         fields = ['provider', 'provideremail', 'medname', 'dosage', 'quantity', 'notes']
 
 class OrderSearchForm(forms.Form):
+    search = forms.CharField(required=False)
+    
+    
+class SalesTransactionForm(forms.ModelForm):
+    class Meta:
+        model = SalesTransaction
+        fields = ['medication', 'quantity_sold', 'price_per_unit', 'payment_method', 'customer', 'timestamp']
+
+    medication = forms.ModelChoiceField(queryset=Medication.objects.all(), label='Medication')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        if hasattr(self.instance, 'medication') and self.instance.medication:
+            default_price = self.instance.medication.price
+            self.fields['price_per_unit'].widget.attrs['placeholder'] = f"Default: {default_price}"
+        else:
+            self.fields['price_per_unit'].widget.attrs['placeholder'] = "Enter Price"
+            
+            
+class SaleSearchForm(forms.Form):
     search = forms.CharField(required=False)

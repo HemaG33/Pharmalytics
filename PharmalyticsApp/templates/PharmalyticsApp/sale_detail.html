@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sale Details</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+</head>
+<body class="container">
+    <h1>Sale Details</h1>
+    <p><strong>Customer ID:</strong> {{ sale.customer.id }}</p>
+    <p><strong>Customer Name:</strong> {{ sale.customer.name }}</p>
+    <p><strong>Time of Sale:</strong> {{ sale.timestamp }}</p>
+    <p><strong>Medication Sold:</strong> {{ sale.medication }}</p>
+    <p><strong>Price Per Unit:</strong> {{ sale.price_per_unit }}</p>
+    <p><strong>Total Price:</strong> {{ sale.total_price }}</p>
+    <a href="{% url 'PharmalyticsApp:sale_list' %}" class="submit-button">Back</a>
+</body>
+</html>

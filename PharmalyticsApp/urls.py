@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import create_medication, medication_list, medication_detail, update_medication, delete_medication, home, success, create_customer, delete_customer, customer_detail, customer_list, update_customer, submit_order, order_list, order_detail, delete_order, scan_barcode, reorder_order
+from .views import create_medication, medication_list, medication_detail, update_medication, delete_medication, home, success, create_customer, delete_customer, customer_detail, customer_list, update_customer, submit_order, order_list, order_detail, delete_order, scan_barcode, reorder_order, create_sale, sale_list, sale_detail, delete_sale, sale_error
 
 app_name = 'PharmalyticsApp'
 
@@ -21,5 +21,10 @@ urlpatterns = [
     path('reorderorder/<int:pk>/', reorder_order, name='reorder_order'),
     path('order/<int:pk>/delete/', delete_order, name='delete_order'),
     path('scanbarcode/', scan_barcode, name='scan_barcode'),
+    path('create-sale/', create_sale, name='create_sale'),
+    path('sales/', sale_list, name='sale_list'),
+    path('sales/<int:pk>/', sale_detail, name='sale_detail'),
+    path('sales/<int:pk>/delete/', delete_sale, name='delete_sale'),
+    path('sale-error/', sale_error, name='sale_error'),
     path('', home, name='home')
 ]

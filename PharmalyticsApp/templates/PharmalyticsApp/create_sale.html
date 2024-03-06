@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Sale</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        <h1>Create Sale</h1>
+
+        <label for="medication">Medication:</label>
+        {{ form.medication }}
+
+        <label for="quantity_sold">Quantity Sold:</label>
+        {{ form.quantity_sold }}
+
+        <label for="price_per_unit">Price Per Unit:</label>
+        {{ form.price_per_unit }}
+
+        <label for="payment_method">Payment Method:</label>
+        {{ form.payment_method }}
+		
+		<label for="customer">Customer:</label>
+        {{ form.customer}}
+
+		<label for="timestamp">Time of Sale:</label>
+        {{ form.timestamp}}
+		
+        <input type="submit" value="Submit">
+        <a href="{% url 'PharmalyticsApp:home' %}" class="submit-button">Home</a>
+    </form>
+</body>
+</html>

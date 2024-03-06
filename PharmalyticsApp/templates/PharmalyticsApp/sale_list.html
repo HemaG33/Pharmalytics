@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sales History</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+</head>
+<body class="container">
+    <h1>Sales History</h1>
+    <!-- Search Form -->
+    <form method="get" action="{% url 'PharmalyticsApp:sale_list' %}" class="form-inline mb-3">
+        <div class="form-group mr-2">
+            <label for="id_search">Search:</label>
+            <input type="text" name="search" id="id_search" class="form-control" value="{{ request.GET.search }}">
+        </div>
+    </form>
+
+    <!-- Sales History -->
+    <ul>
+        {% for sale in sales %}
+            <li>
+                <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #ccc;">
+                    <span style="flex: 1;">
+                        <a href="{% url 'PharmalyticsApp:sale_detail' sale.pk %}" class="view-link">{{ sale.customer.name }}, {{ sale.customer.id }}, {{ sale.medication.name }}</a>
+                    </span>
+                    <span style="white-space: nowrap;">
+                        <a href="{% url 'PharmalyticsApp:delete_sale' sale.pk %}" style="background-color: #007bff; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; font-weight: bold;">Delete</a>
+                    </span>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'PharmalyticsApp:home' %}" class="submit-button">Home</a>
+</body>

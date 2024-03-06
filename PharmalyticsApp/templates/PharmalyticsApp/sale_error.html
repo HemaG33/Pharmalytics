@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sale Error</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+</head>
+<body class="container">
+    <h1>Sale Error</h1>
+    <p>Sorry, there was an error processing your sale:</p>
+    <p>{{ error_message }}</p>
+    <a href="{% url 'PharmalyticsApp:home' %}" class="submit-button">Home</a>
+</body>
+</html>

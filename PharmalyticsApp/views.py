@@ -1,5 +1,5 @@
-from .forms import CreateMedicationForm, CreateCustomerForm, MedicationSearchForm, CustomerSearchForm, MedicationOrderForm, OrderSearchForm
-from .models import Medication, Customers, MedicationOrder
+from .forms import CreateMedicationForm, CreateCustomerForm, MedicationSearchForm, CustomerSearchForm, MedicationOrderForm, OrderSearchForm, SalesTransactionForm, SaleSearchForm
+from .models import Medication, Customers, MedicationOrder, SalesTransaction
 from .util import get_substitutions
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
@@ -7,7 +7,6 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.db.models import Q
 from django.urls import reverse
-
 
 def home(request):
     return render(request, 'PharmalyticsApp/home.html')
@@ -298,3 +297,61 @@ def scan_barcode(request):
         medication = get_object_or_404(Medication, barcode=scanned_barcode)
         return render(request, 'PharmalyticsApp/medication_detail.html', {'medication': medication})
     return render(request, 'PharmalyticsApp/scan_barcode.html')
+    
+    
+def create_sale(request):
+    if request.method == 'POST':
+        form = SalesTransactionForm(request.POST)
+        if form.is_valid():
+            sale = form.save(commit=False)
+
+            medication_instance = form.cleaned_data['medication']
+            quantity_sold = form.cleaned_data['quantity_sold']
+
+            # Check if quantity sold is less than or equal to available inventory
+            if quantity_sold > medication_instance.quantity:
+                # If quantity sold exceeds inventory, return an error message
+                return render(request, 'PharmalyticsApp/sale_error.html', {'error_message': "Quantity sold cannot exceed available quantity."})
+
+            sale.medication = medication_instance
+            sale.save()
+
+            medication_instance.quantity -= quantity_sold
+            medication_instance.save()
+
+            return HttpResponseRedirect('/PharmalyticsApp/success')
+    else:
+        form = SalesTransactionForm()
+
+    return render(request, 'PharmalyticsApp/create_sale.html', {'form': form})
+    
+    
+def sale_list(request):
+    sales = SalesTransaction.objects.all().order_by('-timestamp')  # Newest first
+
+    # Handling search
+    form = SaleSearchForm(request.GET)
+    if form.is_valid():
+        search_term = form.cleaned_data.get('search')
+        if search_term:
+            sales = sales.filter(
+                Q(customer__name__icontains=search_term) | 
+                Q(customer__id__icontains=search_term) | 
+                Q(medication__name__icontains=search_term)
+            )
+    return render(request, 'PharmalyticsApp/sale_list.html', {'sales': sales, 'form': form})
+
+def sale_detail(request, pk):
+    sale = get_object_or_404(SalesTransaction, pk=pk)
+    return render(request, 'PharmalyticsApp/sale_detail.html', {'sale': sale})
+    
+def delete_sale(request, pk):
+    sale = get_object_or_404(SalesTransaction, pk=pk)
+    if request.method == 'POST':
+        sale.delete()
+        return redirect('PharmalyticsApp:sale_list')
+    return render(request, 'PharmalyticsApp/delete_sale.html', {'sale': sale})
+    
+    
+def sale_error(request):
+    return render(request, 'PharmalyticsApp/sale_error.html')
