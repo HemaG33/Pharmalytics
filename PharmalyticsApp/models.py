@@ -63,7 +63,7 @@ class MedicationOrder(models.Model):
     notes = models.TextField(blank=True)
     orderdate = models.DateTimeField(default=datetime.now)
     
-    
+# Sales Model
 class SalesTransaction(models.Model):
     medication = models.ForeignKey(Medication, on_delete=models.CASCADE)
     quantity_sold = models.PositiveIntegerField()

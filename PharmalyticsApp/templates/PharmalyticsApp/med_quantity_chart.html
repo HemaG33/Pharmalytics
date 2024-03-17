@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sales Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</head>
+<body>
+    <div id="chart"></div>
+    <script>
+        var sales_data = {{ sales_data|safe }}
+
+        // Preprocess data to accumulate data for identical names
+        var processedData = {};
+        sales_data.forEach(item => {
+            if (processedData.hasOwnProperty(item.name)) {
+                processedData[item.name] += item.data;
+            } else {
+                processedData[item.name] = item.data;
+            }
+        });
+
+        var names = Object.keys(processedData);
+        var data = names.map(name => processedData[name]);
+        
+        var options = {
+            chart: {
+                type: 'bar'
+            },
+            series: [{
+              name: names,
+              data: data
+            }],
+            xaxis: {
+                categories: names
+            }
+            yaxis: {
+                title: {
+                    text: 'Quantity'
+                }
+            },
+            title: {
+                text: 'Medication Sold Quantity'
+            }
+        };
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+    </script>
+</body>
+</html>

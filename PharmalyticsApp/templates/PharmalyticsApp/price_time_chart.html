@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sales Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</head>
+<body>
+    <div id="chart"></div>
+    <script>
+        var sales_data = {{ sales_data|safe }};
+        var processedData = {};
+        sales_data.forEach(item => {
+            if (processedData.hasOwnProperty(item.data)) {
+                processedData[item.data] += item.name;
+            } else {
+                processedData[item.data] = item.name;
+            }
+        });
+        var months = Object.keys(processedData);
+        var prices = months.map(data => processedData[data]);
+        
+        var options = {
+            chart: {
+                type: 'line'
+            },
+            series: [{
+                name: 'Revenue',
+                data: prices 
+            }],
+            xaxis: {
+                categories: months 
+            },
+            yaxis: {
+                title: {
+                    text: 'Revenue'
+                }
+            },
+            title: {
+                text: 'Sales Chart'
+            }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+    </script>
+</body>
+</html>

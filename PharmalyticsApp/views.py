@@ -1,12 +1,15 @@
 from .forms import CreateMedicationForm, CreateCustomerForm, MedicationSearchForm, CustomerSearchForm, MedicationOrderForm, OrderSearchForm, SalesTransactionForm, SaleSearchForm
 from .models import Medication, Customers, MedicationOrder, SalesTransaction
 from .util import get_substitutions
+from datetime import datetime
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.core.mail import send_mail
 from django.conf import settings
-from django.db.models import Q
+from django.db.models import Q, F, ExpressionWrapper, fields
 from django.urls import reverse
+from django.http import JsonResponse
+from django.views import View
 
 def home(request):
     return render(request, 'PharmalyticsApp/home.html')
@@ -298,7 +301,8 @@ def scan_barcode(request):
         return render(request, 'PharmalyticsApp/medication_detail.html', {'medication': medication})
     return render(request, 'PharmalyticsApp/scan_barcode.html')
     
-    
+
+########################### Sales Table ####################################################
 def create_sale(request):
     if request.method == 'POST':
         form = SalesTransactionForm(request.POST)
@@ -355,3 +359,32 @@ def delete_sale(request, pk):
     
 def sale_error(request):
     return render(request, 'PharmalyticsApp/sale_error.html')
+
+########################### Charts ####################################################
+class MedQuantityDataView(View):
+    def get(self, request):
+        # Retrieve sales transaction data from the database
+        sales_data = SalesTransaction.objects.annotate(
+            total_price=ExpressionWrapper(
+                F('quantity_sold') * F('price_per_unit'),
+                output_field=fields.IntegerField()
+            )
+        ).values('medication__name', 'timestamp', 'quantity_sold', 'total_price')
+        
+        med_quantity_data = [{'name': item['medication__name'], 'data': item['quantity_sold']} for item in sales_data]
+
+        return render(request, 'PharmalyticsApp/med_quantity_chart.html', {'sales_data': med_quantity_data})
+    
+class PriceTimeDataView(View):
+    def get(self, request):
+        # Retrieve sales transaction data from the database
+        sales_data = SalesTransaction.objects.annotate(
+            total_price=ExpressionWrapper(
+                F('quantity_sold') * F('price_per_unit'),
+                output_field=fields.IntegerField()
+            )
+        ).values('medication__name', 'timestamp', 'quantity_sold', 'total_price')
+        
+        price_time_data = [{'name': item['total_price'], 'data': item['timestamp'].strftime('%B')} for item in sales_data]
+
+        return render(request, 'PharmalyticsApp/price_time_chart.html', {'sales_data': price_time_data})

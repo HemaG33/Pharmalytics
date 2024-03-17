@@ -19,5 +19,8 @@
     <h2>Sales Transactions</h2>
     <a href="{% url 'PharmalyticsApp:create_sale' %}" class="home-button">Create Sales Transaction</a>
 	<a href="{% url 'PharmalyticsApp:sale_list' %}" class="home-button">Sales History</a>
+    <h2>Charts</h2>
+    <a href="{% url 'PharmalyticsApp:med_quantity_chart' %}" class="home-button">Medication vs. Quantity</a>
+	<a href="{% url 'PharmalyticsApp:price_time_chart' %}" class="home-button">Revenues Over Time</a>
 </body>
 </html>
