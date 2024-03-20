@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customers per Medication Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</head>
+<body>
+    <!-- Form for age range filter -->
+    <form method="get" action="{% url 'PharmalyticsApp:customer_medication_chart' %}">
+        <label for="age_from">Age From:</label>
+        <input type="number" name="age_from" id="age_from" value="0"> <!-- Default value set to 0 -->
+        
+        <label for="age_to">Age To:</label>
+        <input type="number" name="age_to" id="age_to" value="300"> <!-- Default value set to 300 -->
+        
+        <!-- Gender filter checkboxes -->
+        <label for="gender">Gender:</label><br>
+        <input type="checkbox" name="gender" value="Female"> Female<br>
+        <input type="checkbox" name="gender" value="Male"> Male<br>
+        <input type="checkbox" name="gender" value="Other"> Other<br>
+        <input type="checkbox" name="gender" value="Prefer not to specify"> Prefer not to specify<br>
+        
+        <button type="submit">Apply Filter</button>
+    </form>
+
+    <!-- Chart container -->
+    <div id="chart"></div>
+
+    <!-- JavaScript code for rendering the chart -->
+    <script>
+        var customer_data = {{ customer_data|safe }};
+        var names = [];
+        var data = [];
+
+        // Extract names and data from customer_data
+        customer_data.forEach(item => {
+            names.push(item.name);
+            data.push(item.data);
+        });
+
+        // Chart options
+        var options = {
+            chart: {
+                type: 'bar'
+            },
+            series: [{
+                name: 'Customers',
+                data: data
+            }],
+            xaxis: {
+                categories: names
+            },
+            yaxis: {
+                title: {
+                    text: 'Number of Customers'
+                }
+            },
+            title: {
+                text: 'Customers per Medication'
+            }
+        };
+
+        // Render the chart
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+    </script>
+</body>
+</html>
