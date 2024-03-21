@@ -1,12 +1,12 @@
 from .forms import CreateMedicationForm, CreateCustomerForm, MedicationSearchForm, CustomerSearchForm, MedicationOrderForm, OrderSearchForm, SalesTransactionForm, SaleSearchForm
 from .models import Medication, Customers, MedicationOrder, SalesTransaction
 from .util import get_substitutions
-from datetime import datetime
-from django.http import HttpResponseRedirect
+from datetime import datetime, timedelta
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.core.mail import send_mail
 from django.conf import settings
-from django.db.models import Q, F, ExpressionWrapper, fields
+from django.db.models import Q, F, ExpressionWrapper, fields, Count
 from django.urls import reverse
 from django.http import JsonResponse
 from django.views import View
@@ -388,3 +388,32 @@ class PriceTimeDataView(View):
         price_time_data = [{'name': item['total_price'], 'data': item['timestamp'].strftime('%B')} for item in sales_data]
 
         return render(request, 'PharmalyticsApp/price_time_chart.html', {'sales_data': price_time_data})
+        
+class CustomerMedicationDataView(View):
+    def get(self, request):
+        # Default values for age variables
+        age_from = int(request.GET.get('age_from', 0))
+        age_to = int(request.GET.get('age_to', 300))
+
+        # Calculate birth date ranges based on ages
+        today = datetime.now().date()
+        birth_date_from = today - timedelta(days=age_to*365)
+        birth_date_to = today - timedelta(days=age_from*365)
+
+        # Filter customers based on age ranges
+        customers = Customers.objects.filter(dateofbirth__gte=birth_date_from, dateofbirth__lte=birth_date_to)
+
+        # Filter customers based on gender if provided
+        gender_filters = request.GET.getlist('gender')
+        if gender_filters:
+            customers = customers.filter(gender__in=gender_filters)
+
+        # Aggregate customer count per medication
+        customer_data = customers.values('permanentmedication').annotate(customer_count=Count('id'))
+
+        # Prepare data for rendering in the template
+        chart_data = [{'name': item['permanentmedication'], 'data': item['customer_count']} for item in customer_data]
+
+        return render(request, 'PharmalyticsApp/customer_medication_chart.html', {'customer_data': chart_data})
+        
+        
