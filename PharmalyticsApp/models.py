@@ -71,6 +71,7 @@ class SalesTransaction(models.Model):
     payment_method = models.CharField(max_length=100)
     timestamp = models.DateTimeField(default=datetime.now)
     customer = models.ForeignKey(Customers, on_delete=models.SET_NULL, null=True, blank=True)
+    customeremail = models.EmailField(null=True)
 
     def total_price(self):
         return self.quantity_sold * self.price_per_unit

@@ -52,11 +52,11 @@ class MedicationOrderForm(forms.ModelForm):
 class OrderSearchForm(forms.Form):
     search = forms.CharField(required=False)
     
-    
+# Sales Form
 class SalesTransactionForm(forms.ModelForm):
     class Meta:
         model = SalesTransaction
-        fields = ['medication', 'quantity_sold', 'price_per_unit', 'payment_method', 'customer', 'timestamp']
+        fields = ['medication', 'quantity_sold', 'price_per_unit', 'payment_method', 'customer', 'customeremail', 'timestamp']
 
     medication = forms.ModelChoiceField(queryset=Medication.objects.all(), label='Medication')
 

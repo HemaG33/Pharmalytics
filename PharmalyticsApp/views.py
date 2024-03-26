@@ -319,6 +319,7 @@ def create_sale(request):
 
             sale.medication = medication_instance
             sale.save()
+            send_sale_receipt(sale)
 
             medication_instance.quantity -= quantity_sold
             medication_instance.save()
@@ -328,6 +329,21 @@ def create_sale(request):
         form = SalesTransactionForm()
 
     return render(request, 'PharmalyticsApp/create_sale.html', {'form': form})
+
+def send_sale_receipt(sale):
+    subject = 'Sale Receipt'
+    message = f'''
+    Dear {sale.customer},
+    Your receipt:
+    Medication: {sale.medication}
+    Quantity: {sale.quantity_sold}
+    Paid: {sale.price_per_unit}
+    On: {sale.timestamp}
+    Thank you for your trust.
+    Best Regards.'''
+    from_email = settings.DEFAULT_FROM_EMAIL
+    recipient_list = [sale.customeremail]
+    send_mail(subject, message, from_email, recipient_list)
     
     
 def sale_list(request):
