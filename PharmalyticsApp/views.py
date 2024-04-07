@@ -377,7 +377,7 @@ def sale_error(request):
     return render(request, 'PharmalyticsApp/sale_error.html')
 
 ########################### Charts ####################################################
-class MedQuantityDataView(View):
+class SalesQuantityDataView(View):
     def get(self, request):
         # Retrieve sales transaction data from the database
         sales_data = SalesTransaction.objects.annotate(
@@ -387,9 +387,9 @@ class MedQuantityDataView(View):
             )
         ).values('medication__name', 'timestamp', 'quantity_sold', 'total_price')
         
-        med_quantity_data = [{'name': item['medication__name'], 'data': item['quantity_sold']} for item in sales_data]
+        sales_quantity_data = [{'name': item['medication__name'], 'data': item['quantity_sold']} for item in sales_data]
 
-        return render(request, 'PharmalyticsApp/med_quantity_chart.html', {'sales_data': med_quantity_data})
+        return render(request, 'PharmalyticsApp/sales_quantity_chart.html', {'sales_data': sales_quantity_data})
     
 class PriceTimeDataView(View):
     def get(self, request):
