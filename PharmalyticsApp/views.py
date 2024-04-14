@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.core.mail import send_mail
 from django.conf import settings
-from django.db.models import Q, F, ExpressionWrapper, fields, Count
+from django.db.models import Q, F, ExpressionWrapper, fields, Count, Sum
 from django.urls import reverse
 from django.http import JsonResponse
 from django.views import View
@@ -433,3 +433,32 @@ class CustomerMedicationDataView(View):
         return render(request, 'PharmalyticsApp/customer_medication_chart.html', {'customer_data': chart_data})
         
         
+class MedicationQuantityDataView(View):
+    def get(self, request):
+        # Filter medications based on filtering options
+        provider = request.GET.get('provider')
+        category = request.GET.get('category')
+        min_price = request.GET.get('min_price')
+        max_price = request.GET.get('max_price')
+
+        medications = Medication.objects.all()
+
+        if provider:
+            medications = medications.filter(provider=provider)
+
+        if category:
+            medications = medications.filter(category=category)
+
+        if min_price:
+            medications = medications.filter(price__gte=min_price)
+
+        if max_price:
+            medications = medications.filter(price__lte=max_price)
+
+        # Aggregate medication quantity per medication
+        medication_data = medications.values('name').annotate(total_quantity=Sum('quantity'))
+
+        # Prepare data for rendering in the template
+        chart_data = [{'name': item['name'], 'data': item['total_quantity']} for item in medication_data]
+
+        return render(request, 'PharmalyticsApp/medication_quantity_chart.html', {'medication_data': chart_data}) 

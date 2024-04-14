@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import create_medication, medication_list, medication_detail, update_medication, delete_medication, home, success, create_customer, delete_customer, customer_detail, customer_list, update_customer
-from .views import submit_order, order_list, order_detail, delete_order, scan_barcode, reorder_order, create_sale, sale_list, sale_detail, delete_sale, sale_error, SalesQuantityDataView, PriceTimeDataView, CustomerMedicationDataView
+from .views import submit_order, order_list, order_detail, delete_order, scan_barcode, reorder_order, create_sale, sale_list, sale_detail, delete_sale, sale_error, SalesQuantityDataView, PriceTimeDataView, CustomerMedicationDataView, MedicationQuantityDataView
 
 app_name = 'PharmalyticsApp'
 
@@ -30,5 +30,6 @@ urlpatterns = [
     path('sales-quantity-chart/', SalesQuantityDataView.as_view(), name='sales_quantity_chart'),
     path('price-time-chart/', PriceTimeDataView.as_view(), name='price_time_chart'),
     path('customer-medication-chart/', CustomerMedicationDataView.as_view(), name='customer_medication_chart'),
+    path('medication-quantity-chart/', MedicationQuantityDataView.as_view(), name='medication_quantity_chart'),
     path('', home, name='home')
 ]

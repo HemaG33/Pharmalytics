@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Medication Quantity Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</head>
+<body>
+    <!-- Form for filtering options -->
+    <form method="get" action="{% url 'PharmalyticsApp:medication_quantity_chart' %}">
+        <label for="provider">Provider:</label>
+        <input type="text" name="provider" id="provider">
+
+        <label for="category">Category:</label>
+        <select name="category" id="category">
+            <option value="">All</option>
+            <option value="Blood Pressure">Blood Pressure</option>
+            <option value="Diabetes">Diabetes</option>
+            <option value="Gastro">Gastro</option>
+            <option value="Pregnancy">Pregnancy</option>
+            <option value="Infants">Infants</option>
+            <option value="Pain Killer">Pain Killer</option>
+            <option value="Other">Other</option>
+        </select>
+
+        <label for="min_price">Min Price:</label>
+        <input type="number" name="min_price" id="min_price">
+
+        <label for="max_price">Max Price:</label>
+        <input type="number" name="max_price" id="max_price">
+
+        <button type="submit">Apply Filter</button>
+    </form>
+
+    <!-- Chart container -->
+    <div id="chart"></div>
+
+    <!-- JavaScript code for rendering the chart -->
+    <script>
+        var medication_data = {{ medication_data|safe }};
+        var names = [];
+        var data = [];
+
+        // Extract names and data from medication_data
+        medication_data.forEach(item => {
+            names.push(item.name);
+            data.push(item.data);
+        });
+
+        // Chart options
+        var options = {
+            chart: {
+                type: 'bar'
+            },
+            series: [{
+                name: 'Quantity',
+                data: data
+            }],
+            xaxis: {
+                categories: names
+            },
+            yaxis: {
+                title: {
+                    text: 'Quantity'
+                }
+            },
+            title: {
+                text: 'Medication Quantity Chart'
+            }
+        };
+
+        // Render the chart
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+    </script>
+</body>
+</html>
