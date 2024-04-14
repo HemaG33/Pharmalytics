@@ -5,24 +5,56 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 </head>
-<body class="container">
-    <h2>Medication Database</h2>
-    <a href="{% url 'PharmalyticsApp:create_medication' %}" class="home-button">Add New Medication</a>
-    <a href="{% url 'PharmalyticsApp:medication_list' %}" class="home-button">View Current Medications</a>
-    <a href="{% url 'PharmalyticsApp:scan_barcode' %}" class="home-button">Scan a Barcode</a>
-    <h2>Customers Database</h2>
-    <a href="{% url 'PharmalyticsApp:create_customer' %}" class="home-button">Add New Customer</a>
-    <a href="{% url 'PharmalyticsApp:customer_list' %}" class="home-button">View Current Customers</a>
-    <h2>Order Medication Form</h2>
-    <a href="{% url 'PharmalyticsApp:submit_order' %}" class="home-button">Order Medication</a>
-    <a href="{% url 'PharmalyticsApp:order_list' %}" class="home-button">Order History</a>
-    <h2>Sales Transactions</h2>
-    <a href="{% url 'PharmalyticsApp:create_sale' %}" class="home-button">Create Sales Transaction</a>
-	<a href="{% url 'PharmalyticsApp:sale_list' %}" class="home-button">Sales History</a>
-    <h2>Charts</h2>
-    <a href="{% url 'PharmalyticsApp:sales_quantity_chart' %}" class="home-button">Sales vs. Quantity</a>
-	<a href="{% url 'PharmalyticsApp:price_time_chart' %}" class="home-button">Revenues Over Time</a>
-	<a href="{% url 'PharmalyticsApp:medication_quantity_chart' %}" class="home-button">Medication Quantity</a>
-	<a href="{% url 'PharmalyticsApp:customer_medication_chart' %}" class="home-button">Customers Demographics per Permanent Medication</a>
+<body id="top">
+    <nav id="navbar">
+        <img src="{% static 'assets/logo.png' %}" alt="logo" id="navbar-logo">
+        <ul>
+            <li><a href="#top">Home</a></li>
+            <li><a href="#top">Medication Database</a></li>
+            <li><a href="#customers_database">Customers Database</a></li>
+            <li><a href="#order_medication_form">Order Medication Form</a></li>
+            <li><a href="#sales_transactions">Sales Transactions</a></li>
+            <li><a href="#charts">Charts</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+    <div class="section" id="medication_database">
+        <h2>Medication Database</h2>
+        <div class="buttons">
+            <a href="{% url 'PharmalyticsApp:create_medication' %}" class="home-button">Add New Medication</a>
+            <a href="{% url 'PharmalyticsApp:medication_list' %}" class="home-button">View Medication List</a>
+            <a href="{% url 'PharmalyticsApp:scan_barcode' %}" class="home-button">Scan a Barcode</a>
+        </div>
+    </div>
+    <div class="section" id="customers_database">
+        <h2>Customers Database</h2>
+        <div class="buttons">
+            <a href="{% url 'PharmalyticsApp:create_customer' %}" class="home-button">Add New Customer</a>
+            <a href="{% url 'PharmalyticsApp:customer_list' %}" class="home-button">View Customers List</a>
+        </div>
+    </div>
+    <div class="section" id="order_medication_form">
+        <h2>Order Medication Form</h2>
+        <div class="buttons">
+            <a href="{% url 'PharmalyticsApp:submit_order' %}" class="home-button">Order Medication</a>
+            <a href="{% url 'PharmalyticsApp:order_list' %}" class="home-button">Order History</a>
+        </div>
+    </div>
+    <div class="section" id="sales_transactions">
+        <h2>Sales Transactions</h2>
+        <div class="buttons">
+            <a href="{% url 'PharmalyticsApp:create_sale' %}" class="home-button">Create Sales Transaction</a>
+	        <a href="{% url 'PharmalyticsApp:sale_list' %}" class="home-button">Sales History</a>
+        </div>
+    </div>
+    <div class="section" id="charts">
+        <h2 id="charts">Charts</h2>
+        <div class="buttons">
+            <a href="{% url 'PharmalyticsApp:sales_quantity_chart' %}" class="home-button">Sales vs. Quantity</a>
+	        <a href="{% url 'PharmalyticsApp:price_time_chart' %}" class="home-button">Revenues Over Time</a>
+            <a href="{% url 'PharmalyticsApp:medication_quantity_chart' %}" class="home-button">Medication Quantity</a>
+	        <a href="{% url 'PharmalyticsApp:customer_medication_chart' %}" class="home-button">Customers Demographics per Permanent Medication</a>
+        </div>
+    </div>
 </body>
 </html>

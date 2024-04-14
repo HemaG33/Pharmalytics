@@ -5,13 +5,14 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 </head>
-<body class="container">
+<body id="form">
+<div class="form-container">
+<form method="post" class="input-form">
+    {% csrf_token %}
     <h1>Edit Medication</h1>
-    <form method="post">
-        {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Update">
-    </form>
     <a href="{% url 'PharmalyticsApp:medication_list' %}" class="submit-button">Back</a>
+</form>
 </body>
 </html>

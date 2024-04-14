@@ -6,15 +6,18 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 </head>
-<body>
-    <form method="post">
+<body id="form">
+<div class="form-container">
+    <form method="post" class="input-form">
         {% csrf_token %}
         <h1>Scan Barcode</h1>
-
-        <label for="barcode">Barcode:</label>
-        <input type="text" name="barcode" required>
-        <input type="submit"></input>
+        <div class="form-group">
+            <label for="barcode">Barcode:</label>
+            <input type="text" name="barcode" required>
+        </div>
+        <input type="submit" value="Submit">
         <a href="{% url 'PharmalyticsApp:home' %}" class="submit-button">Home</a>
     </form>
+</div>
 </body>
 </html>

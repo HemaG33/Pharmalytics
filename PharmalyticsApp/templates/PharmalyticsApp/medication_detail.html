@@ -5,26 +5,66 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 </head>
-<body class="container">
+<body id="form">
+<div class="form-container">
+<div class="list-form">
     <h1>Medication Details</h1>
-    <p>Name: {{ medication.name }}</p>
-    <p>Dosage: {{ medication.dosage }}</p>
-    <p>Provider: {{ medication.provider }}</p>
-    <p>Quantity: {{ medication.quantity }}</p>
-    <p>Expiry Date: {{ medication.expirydate }}</p>
-    <p>Price: {{ medication.price }}</p>
-    <p>Category: {{ medication.category }}</p>
-    <p>Description: {{ medication.description }}</p>
-    <p>Barcode Label: {{ medication.barcode }}</p>
-    <p>Side Effects: {{ medication.sideeffects }}</p>
-    <p>Chemical Composition: {{ medication.chemicalcomposition }}</p>
-    <p>Substitute/s: 
-        {% for substitution in substitutions %}
-            <p>{{ forloop.counter }}. {{ substitution.name }} - Chemical Composition: {{ substitution.chemicalcomposition }}</p>
-        {% endfor %}
-    </p>
-    <a href="{% url 'PharmalyticsApp:update_medication' medication.pk %}" class="submit-button">Edit</a>
-    <a href="{% url 'PharmalyticsApp:delete_medication' medication.pk %}" class="submit-button">Delete</a>
-    <a href="{% url 'PharmalyticsApp:medication_list' %}" class="submit-button">Back</a>
+    <a href="{% url 'PharmalyticsApp:update_medication' medication.pk %}" class="edit-button">Edit</a>
+    <a href="{% url 'PharmalyticsApp:delete_medication' medication.pk %}" class="delete-button">Delete</a>
+        <div class="form-group">
+            <label>Name:</label>
+            <p>{{ medication.name }}</p>
+        </div>
+        <div class="form-group">
+            <label>Dosage:</label>
+            <p>{{ medication.dosage }}</p>
+        </div>
+        <div class="form-group">
+            <label>Provider:</label>
+            <p>{{ medication.provider }}</p>
+        </div>
+        <div class="form-group">
+            <label>Quantity:</label>
+            <p>{{ medication.quantity }}</p>
+        </div>
+        <div class="form-group">
+            <label>Expiry Date:</label>
+            <p>{{ medication.expirydate }}</p>
+        </div>
+        <div class="form-group">
+            <label>Price:</label>
+            <p>{{ medication.price }}</p>
+        </div>
+        <div class="form-group">
+            <label>Category:</label>
+            <p>{{ medication.category }}</p>
+        </div>
+        <div class="form-group">
+            <label>Description:</label>
+            <p>{{ medication.description }}</p>
+        </div>
+        <div class="form-group">
+            <label>Barcode Label:</label>
+            <p>{{ mmedication.barcode }}</p>
+        </div>
+        <div class="form-group">
+            <label>Side Effects:</label>
+            <p>{{ medication.sideeffects }}</p>
+        </div>
+        <div class="form-group">
+            <label>Chemical Composition:</label>
+            <p>{{ medication.chemicalcomposition }}</p>
+        </div>
+        <div class="form-group">
+            <label>Substitute/s:</label>
+            <p>{% for substitution in substitutions %}
+                <p>{{ forloop.counter }}. {{ substitution.name }} - Chemical Composition: {{ substitution.chemicalcomposition }}</p>
+                {% endfor %}
+            </p>
+        </div>
+        <a href="{% url 'PharmalyticsApp:medication_list' %}" class="submit-button">Back</a>
+        <a href="{% url 'PharmalyticsApp:home' %}" class="submit-button">Home</a>
+    </div>
+</div>
 </body>
 </html>

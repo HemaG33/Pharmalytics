@@ -5,40 +5,43 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 </head>
-<body class="container">
-    <h1>Customer List</h1>
+<body id="form">
+<div class="form-container">
     <!-- Search and Filter Form -->
-    <form method="get" action="{% url 'PharmalyticsApp:customer_list' %}" class="form-inline mb-3">
-        <div class="form-group mr-2">
+    <form method="get" action="{% url 'PharmalyticsApp:customer_list' %}" class="input-form">
+        <h1>Customer List</h1>
+        <div class="form-group">
             <label for="id_search">Search:</label>
             <input type="text" name="search" id="id_search" class="form-control" value="{{ request.GET.search }}">
         </div>
-        <label for="permanentmedication">Permanent Medication:</label>
-        <select name="permanentmedication" id="permanentmedication">
-            <option value="" selected>--- All ---</option>
-            {% for medication in permanent_medications %}
-                <option value="{{ medication }}">{{ medication }}</option>
-            {% endfor %}
-        </select>
-        <button type="submit">Filter</button>
-    </form>
-
-    <!-- Customer List -->
+        <div class="form-group">
+            <label for="permanentmedication">Permanent Medication:</label>
+            <select name="permanentmedication" id="permanentmedication">
+                <option value="" selected>--- All ---</option>
+                {% for medication in permanent_medications %}
+                    <option value="{{ medication }}">{{ medication }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="submit-button">Filter</button>
+        <!-- Customer List -->
     <ul>
         {% for customer in customers %}
             <li>
-                <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #ccc;">
-                    <span style="flex: 1;">
+                <div class="list-item">
+                    <span class="item-name">
                         <a href="{% url 'PharmalyticsApp:customer_detail' customer.pk %}" class="view-link">{{ customer.name }}</a>
                     </span>
-                    <span style="white-space: nowrap;">
-                        <a href="{% url 'PharmalyticsApp:update_customer' customer.pk %}" style="background-color: #007bff; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; font-weight: bold; margin-right: 10px;">Edit</a>
-                        <a href="{% url 'PharmalyticsApp:delete_customer' customer.pk %}" style="background-color: #007bff; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; font-weight: bold;">Delete</a>
+                    <span class="item-actions">
+                        <a href="{% url 'PharmalyticsApp:update_customer' customer.pk %}" class="edit-button">Edit</a>
+                        <a href="{% url 'PharmalyticsApp:delete_customer' customer.pk %}" class="delete-button">Delete</a>
                     </span>
                 </div>
             </li>
         {% endfor %}
     </ul>
     <a href="{% url 'PharmalyticsApp:home' %}" class="submit-button">Home</a>
+    </form>
+</div>
 </body>
 </html>

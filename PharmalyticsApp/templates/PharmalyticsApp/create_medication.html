@@ -6,43 +6,56 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 </head>
-<body>
-<form method="post">
+<body id="form">
+<div class="form-container">
+<form method="post" class="input-form">
     {% csrf_token %}
-    <h1>Medication Form</h1>
+    <h1>Create New Medication</h1>
     
-    <label for="name">Name:</label>
-    {{ form.name }}
-
-    <label for="dosage">Dosage:</label>
-    {{ form.dosage }}
-    
-    <label for="provider">Provider:</label>
-    {{ form.provider }}
-    
-    <label for="quantity">Quantity:</label>
-    {{ form.quantity }}
-    
-    <label for="expirydate">Expiry Date:</label>
-    {{ form.expirydate }}
-
-    <label for="price">Price:</label>
-    {{ form.price }}
-    
-    <label for="category">Category:</label>
-    {{ form.category }}
-    
-    <label for="description">Description:</label>
-    {{ form.description }}
-
-    <label for="sideeffects">Side Effects:</label>
-    {{ form.sideeffects }}
-    
-    <label for="chemicalcomposition">Chemical Composition:</label>
-    {{ form.chemicalcomposition }}
+    <div class="form-group">
+        <label for="name">Name:</label>
+        {{ form.name }}
+    </div>
+    <div class="form-group">
+        <label for="dosage">Dosage:</label>
+        {{ form.dosage }}
+    </div>
+    <div class="form-group">
+        <label for="provider">Provider:</label>
+        {{ form.provider }}
+    </div>
+    <div class="form-group">
+        <label for="quantity">Quantity:</label>
+        {{ form.quantity }}
+    </div>
+    <div class="form-group">
+        <label for="expirydate">Expiry Date:</label>
+        {{ form.expirydate }}
+    </div>
+    <div class="form-group">
+        <label for="price">Price:</label>
+        {{ form.price }}
+    </div>
+    <div class="form-group">
+        <label for="category">Category:</label>
+        {{ form.category }}
+    </div>
+    <div class="form-group">
+        <label for="description">Description:</label>
+        {{ form.description }}
+    </div>
+    <div class="form-group">
+        <label for="sideeffects">Side Effects:</label>
+        {{ form.sideeffects }}
+    </div>
+    <div class="form-group">
+        <label for="chemicalcomposition">Chemical Composition:</label>
+        {{ form.chemicalcomposition }}
+    </div>
     
     <input type="submit" value="Submit">
     <a href="{% url 'PharmalyticsApp:home' %}" class="submit-button">Home</a>
+</div>
 </form>
 </body>
 </html>
