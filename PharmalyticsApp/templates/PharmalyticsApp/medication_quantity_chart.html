@@ -3,14 +3,18 @@
 <head>
     <title>Medication Quantity Chart</title>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 </head>
-<body>
+<body id="chartt">
+    <div class="chart-form-container">
+
     <!-- Form for filtering options -->
-    <form method="get" action="{% url 'PharmalyticsApp:medication_quantity_chart' %}">
-        <label for="provider">Provider:</label>
+    <form class="chart-form" method="get" action="{% url 'PharmalyticsApp:medication_quantity_chart' %}">
+        <label class="chart-form-group" for="provider">Provider:</label>
         <input type="text" name="provider" id="provider">
 
-        <label for="category">Category:</label>
+        <label class="chart-form-group" for="category">Category:</label>
         <select name="category" id="category">
             <option value="">All</option>
             <option value="Blood Pressure">Blood Pressure</option>
@@ -22,18 +26,17 @@
             <option value="Other">Other</option>
         </select>
 
-        <label for="min_price">Min Price:</label>
+        <label class="chart-form-group" for="min_price">Min Price:</label>
         <input type="number" name="min_price" id="min_price">
 
-        <label for="max_price">Max Price:</label>
+        <label class="chart-form-group" for="max_price">Max Price:</label>
         <input type="number" name="max_price" id="max_price">
-
-        <button type="submit">Apply Filter</button>
+<label class="chart-form-group"></label>
+        <button class="submit-button" type="submit">Apply Filter</button>
     </form>
 
     <!-- Chart container -->
     <div id="chart"></div>
-
     <!-- JavaScript code for rendering the chart -->
     <script>
         var medication_data = {{ medication_data|safe }};
@@ -72,5 +75,7 @@
         var chart = new ApexCharts(document.querySelector("#chart"), options);
         chart.render();
     </script>
+    <a href="{% url 'PharmalyticsApp:home' %}" class="submit-button">Home</a>
+        </div>
 </body>
 </html>

@@ -3,8 +3,11 @@
 <head>
     <title>Sales Chart</title>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 </head>
-<body>
+<body id="chartt">
+    <div class="chart-form-container">
     <div id="chart"></div>
     <script>
         var sales_data = {{ sales_data|safe }};
@@ -43,5 +46,7 @@
         var chart = new ApexCharts(document.querySelector("#chart"), options);
         chart.render();
     </script>
+    <a href="{% url 'PharmalyticsApp:home' %}" class="submit-button">Home</a>
+    </div>
 </body>
 </html>
