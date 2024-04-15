@@ -5,10 +5,15 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 </head>
-<body class="container">
+<body id="form">
+<div class="form-container">
+    <div class="list-form">
     <h1>Sale Error</h1>
     <p>Sorry, there was an error processing your sale:</p>
     <p>{{ error_message }}</p>
+    <a href="{% url 'PharmalyticsApp:create_sale' %}" class="submit-button">Home</a>
     <a href="{% url 'PharmalyticsApp:home' %}" class="submit-button">Home</a>
+</div>
+</div>
 </body>
 </html>

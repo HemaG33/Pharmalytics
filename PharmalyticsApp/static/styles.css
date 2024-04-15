@@ -61,13 +61,7 @@ body::before {
     margin-bottom: 5%;
 }
 
-.input-form {
-    width: 50%;  
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    background-color: #f3fdf0;
-    border-radius: 8px;
-}
+
 
 .input-form .form-group {
     margin-bottom: 20px;
@@ -271,4 +265,92 @@ a.view-link:hover {
 
 #navbar ul li a:hover {
     background-color: #555; 
+}
+
+#chartt {
+    position: relative;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    font-family: Arial, sans-serif;
+    background-color: #d8ecd1;
+    min-height: 100vh;
+}
+
+#chartt::before{
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('assets/waves.jpg') no-repeat center center;
+    background-size: cover;
+    opacity: 0.3; 
+    z-index: -1; 
+    width: 100%;
+
+}
+.chart-form {
+    background-color: #d8ecd1;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom:50px ;
+
+}
+.input-form {
+    width: 50%;  
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    background-color: #f3fdf0;
+    border-radius: 8px;
+}
+
+.chart-form-container {
+    width: 70%;  
+    padding: 50px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    background-color: #f3fdf0;
+    border-radius: 8px;
+}
+
+
+.chart-form .chart-form-group {
+    margin-top: 20px;
+}
+
+.chart-form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.chart-form input[type="text"],
+.chart-form select {
+    width: 95%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.chart-form button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.chart-form button[type="submit"]:hover {
+    background-color: #70c973;
+
 }

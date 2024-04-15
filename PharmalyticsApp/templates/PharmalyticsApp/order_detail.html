@@ -5,17 +5,43 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 </head>
-<body class="container">
+<body id="form">
+<div class="form-container">
+<div class="list-form">
     <h1>Order Details</h1>
-    <p>Provider: {{ order.provider }}</p>
-    <p>Provider Email: {{ order.provideremail }}</p>
-    <p>Medication Name: {{ order.medname }}</p>
-    <p>Dosage: {{ order.dosage }}</p>
-    <p>Quantity: {{ order.quantity }}</p>
-    <p>Notes: {{ order.notes }}</p>
-    <p>Date of Order: {{ order.orderdate }}</p>
-    <a href="{% url 'PharmalyticsApp:reorder_order' order.pk %}" class="submit-button">Reorder</a>
-    <a href="{% url 'PharmalyticsApp:delete_order' order.pk %}" class="submit-button">Delete</a>
+    <a href="{% url 'PharmalyticsApp:reorder_order' order.pk %}" class="edit-button">Reorder</a>    
+    <a href="{% url 'PharmalyticsApp:delete_order' order.pk %}" class="delete-button">Delete</a>
+    <div class="form-group">
+        <label>Provider:</label>
+        <p>{{ order.provider }}</p>
+    </div>
+    <div class="form-group">
+        <label>Provider Email:</label>
+        <p>{{ order.provideremail }}</p>
+    </div>
+    <div class="form-group">
+        <label>Medication Name:</label>
+        <p>{{ order.medname }}</p>
+    </div>
+    <div class="form-group">
+        <label>Dosage:</label>
+        <p>{{ order.dosage }}</p>
+    </div>
+    <div class="form-group">
+        <label>Quantity:</label>
+        <p>{{ order.quantity }}</p>
+    </div>
+    <div class="form-group">
+        <label>Notes:</label>
+        <p>{{ order.notes }}</p>
+    </div>
+    <div class="form-group">
+        <label>Date of Order:</label>
+        <p>{{ order.orderdate }}</p>
+    </div>
     <a href="{% url 'PharmalyticsApp:order_list' %}" class="submit-button">Back</a>
+    <a href="{% url 'PharmalyticsApp:home' %}" class="submit-button">Home</a>
+    </div>
+</div>
 </body>
 </html>

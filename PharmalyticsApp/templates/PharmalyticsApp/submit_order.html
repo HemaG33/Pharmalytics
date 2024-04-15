@@ -6,31 +6,49 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 </head>
-<body>
-<form method="post">
+<body id="form">
+    <div class="form-container">
+<form method="post" class="input-form">
     {% csrf_token %}
     <h1>Order Form</h1>
     
+    <div class="form-group">
     <label for="provider">Provider:</label>
     {{ form.provider }}
+</div>
+
+
+<div class="form-group">
 
     <label for="provideremail">Provider Email:</label>
     {{ form.provideremail }}
+    </div>
     
+    <div class="form-group">
+
     <label for="medname">Medication Name:</label>
     {{ form.medname }}
-    
+    </div>
+    <div class="form-group">
+
     <label for="dosage">Dosage:</label>
     {{ form.dosage }}
-    
+    </div>
+    <div class="form-group">
+
     <label for="quantity">Quantity:</label>
     {{ form.quantity }}
+    </div>
+
+    <div class="form-group">
 
     <label for="notes">Notes:</label>
     {{ form.notes }}
-    
+    </div>
+
     <input type="submit" value="Submit">
     <a href="{% url 'PharmalyticsApp:home' %}" class="submit-button">Home</a>
 </form>
+</div>
 </body>
 </html>

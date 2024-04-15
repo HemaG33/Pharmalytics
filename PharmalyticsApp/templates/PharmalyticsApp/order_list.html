@@ -5,31 +5,34 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 </head>
-<body class="container">
-    <h1>Order History</h1>
+<body id="form">
+<div class="form-container">
     <!-- Search Form -->
-    <form method="get" action="{% url 'PharmalyticsApp:order_list' %}" class="form-inline mb-3">
-        <div class="form-group mr-2">
+    <form method="get" action="{% url 'PharmalyticsApp:order_list' %}" class="input-form">
+        <h1>Order History</h1>
+        <div class="form-group">
             <label for="id_search">Search:</label>
             <input type="text" name="search" id="id_search" class="form-control" value="{{ request.GET.search }}">
         </div>
-    </form>
+
 
     <!-- Order History -->
     <ul>
         {% for order in orders %}
             <li>
-                <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #ccc;">
-                    <span style="flex: 1;">
+                <div class="list-item">
+                    <span class="item-name">
                         <a href="{% url 'PharmalyticsApp:order_detail' order.pk %}" class="view-link">{{ order.provider }}, {{ order.medname }}</a>
                     </span>
-                    <span style="white-space: nowrap;">
-                        <a href="{% url 'PharmalyticsApp:delete_order' order.pk %}" style="background-color: #007bff; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; font-weight: bold;">Delete</a>
+                    <span class="item-actions">
+                        <a href="{% url 'PharmalyticsApp:delete_order' order.pk %}" class="delete-button">Delete</a>
                     </span>
                 </div>
             </li>
         {% endfor %}
     </ul>
     <a href="{% url 'PharmalyticsApp:home' %}" class="submit-button">Home</a>
+</form>
+</div>
 </body>
 </html>

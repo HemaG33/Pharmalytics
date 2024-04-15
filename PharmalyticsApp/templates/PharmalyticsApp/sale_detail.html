@@ -5,15 +5,42 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 </head>
-<body class="container">
+<body id="form">
+<div class="form-container">
+<div class="list-form">
     <h1>Sale Details</h1>
-    <p><strong>Customer ID:</strong> {{ sale.customer.id }}</p>
-    <p><strong>Customer Name:</strong> {{ sale.customer.name }}</p>
-    <p><strong>Customer Email:</strong> {{ sale.customeremail }}</p>
-    <p><strong>Time of Sale:</strong> {{ sale.timestamp }}</p>
-    <p><strong>Medication Sold:</strong> {{ sale.medication }}</p>
-    <p><strong>Price Per Unit:</strong> {{ sale.price_per_unit }}</p>
-    <p><strong>Total Price:</strong> {{ sale.total_price }}</p>
+    <a href="{% url 'PharmalyticsApp:delete_sale' sale.pk %}" class="delete-button">Delete</a>
+    <div class="form-group">
+        <label>Customer ID:</label>
+        <p>{{ sale.customer.id }}</p>
+    </div>
+    <div class="form-group">
+        <label>Customer Name:</label>
+        <p>{{ sale.customer.name }}</p>
+    </div>
+    <div class="form-group">
+        <label>Customer Email:</label>
+        <p>{{ sale.customeremail }}</p>
+    </div>
+    <div class="form-group">
+        <label>Time of Sale:</label>
+        <p>{{ sale.timestamp }}</p>
+    </div>
+    <div class="form-group">
+        <label>Medication Sold:</label>
+        <p>{{ sale.medication }}</p>
+    </div>
+    <div class="form-group">
+        <label>Price Per Unit:</label>
+        <p>{{ sale.price_per_unit }}</p>
+    </div>
+    <div class="form-group">
+        <label>Total Price:</label>
+        <p>{{ sale.total_price }}</p>
+    </div>
     <a href="{% url 'PharmalyticsApp:sale_list' %}" class="submit-button">Back</a>
+    <a href="{% url 'PharmalyticsApp:home' %}" class="submit-button">Home</a>
+    </div>
+</div>
 </body>
 </html>
